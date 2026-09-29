@@ -29,7 +29,7 @@
                     <td><input type="text" name="name2" id="name2" placeholder="Enter partner's name"></td>
                 </tr>
             </table>
-            <button type="button" onclick="display(event)">
+            <button type="submit">
                 <span>Calculate Match</span>
                 <span>💘</span>
             </button>
@@ -47,31 +47,9 @@
                 alert("Please enter both names");
                 return;
             }
+            window.location.href = "love.html";
 
-            fetch("/save-match", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name1: name1,
-                    name2: name2
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
 
-                    if (data.success) {
-                        // Continue with your match calculation
-                        console.log("Names saved successfully");
-
-                        // Your existing result-page logic can go here
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
         }
     </script>
 </body>
