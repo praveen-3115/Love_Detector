@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Result 💖 Love Detector</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 id="headline">Congratulations</h1>
+            <div id="coupleNames" class="couple-names" style="display: none;"></div>
+            <h2 id="subtitle">Perfect Match</h2>
+
+            <div class="heart-wrapper">
+                <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1280px-Heart_coraz%C3%B3n.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                    alt="Pulsing Heart"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23ff3366%22><path d=%22M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z%22/></svg>'">
+            </div>
+
+            <b id="res">94%</b>
+
+            <div class="match-bar-container">
+                <div id="matchBar" class="match-bar" style="width: 94%;"></div>
+            </div>
+
+            <a href="index.html" class="back-btn">
+                <button type="button">
+                    <span>Try Another Match</span>
+                    <span>🔄</span>
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve names from URL params or sessionStorage
+        const params = new URLSearchParams(window.location.search);
+        const name1 = params.get('name1') || sessionStorage.getItem('love_name1');
+        const name2 = params.get('name2') || sessionStorage.getItem('love_name2');
+
+        const resEl = document.getElementById('res');
+        const matchBar = document.getElementById('matchBar');
+        const coupleNamesEl = document.getElementById('coupleNames');
+        const headlineEl = document.getElementById('headline');
+        const subtitleEl = document.getElementById('subtitle');
+
+        if (name1 && name2) {
+            coupleNamesEl.textContent = `${name1} ❤️ ${name2}`;
+            coupleNamesEl.style.display = 'inline-flex';
+
+            // Generate a consistent pseudo-random match percentage based on the two names
+            const combined = (name1 + name2).toLowerCase().replace(/[^a-z]/g, '');
+            let hash = 0;
+            for (let i = 0; i < combined.length; i++) {
+                hash = (hash * 31 + combined.charCodeAt(i)) % 1000;
+            }
+            // Score between 70% and 99% for high compatibility feel
+            const score = 70 + (hash % 30);
+
+            resEl.textContent = score + '%';
+
+            if (matchBar) {
+                matchBar.style.width = score + '%';
+            }
+
+            if (score >= 90) {
+                headlineEl.textContent = 'Congratulations! 🎉';
+                subtitleEl.textContent = 'Soulmates & Perfect Match ✨';
+            } else if (score >= 80) {
+                headlineEl.textContent = 'Great Match! 💕';
+                subtitleEl.textContent = 'High Chemistry & Love 🔥';
+            } else {
+                headlineEl.textContent = 'Good Compatibility! 💖';
+                subtitleEl.textContent = 'Growing Love & Sweet Bonds 🌸';
+            }
+        }
+    </script>
+</body>
+
+</html>

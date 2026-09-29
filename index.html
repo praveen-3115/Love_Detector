@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Detector ❤️</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="app-header">
+            <div class="heart-badge">💖</div>
+            <h1 class="app-title">Love Detector</h1>
+            <p class="app-subtitle">Discover true compatibility with your partner</p>
+        </div>
+
+        <div id="errorMsg" class="error-msg"></div>
+
+        <form action="" onsubmit="display(event)">
+            <table>
+                <tr>
+                    <td><label for="name1"><span>👤</span> Your Name</label></td>
+                    <td><input type="text" name="name1" id="name1" placeholder="Enter your name" autofocus></td>
+                </tr>
+                <tr>
+                    <td><label for="name2"><span>💖</span> Partner Name</label></td>
+                    <td><input type="text" name="name2" id="name2" placeholder="Enter partner's name"></td>
+                </tr>
+            </table>
+            <button type="submit">
+                <span>Calculate Match</span>
+                <span>💘</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function display(event) {
+            event.preventDefault();
+
+            let name1 = document.getElementById("name1").value.trim();
+            let name2 = document.getElementById("name2").value.trim();
+
+            if (name1 === "" || name2 === "") {
+                alert("Please enter both names");
+                return;
+            }
+
+            fetch("/save-match", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name1: name1,
+                    name2: name2
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    if (data.success) {
+                        // Continue with your match calculation
+                        console.log("Names saved successfully");
+
+                        // Your existing result-page logic can go here
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>
